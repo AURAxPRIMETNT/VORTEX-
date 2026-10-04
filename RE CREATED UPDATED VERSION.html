@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA - Premium Gaming & Creator Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #07090f; 
+            --card-bg: rgba(20, 25, 35, 0.4); 
+            --primary-glow: #00ffcc; 
+            --secondary-glow: #bc13fe; 
+            --text-color: #d1d5db;
+            --text-bright: #ffffff;
+            --discord: #5865F2;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; scroll-behavior: smooth; }
+        
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 255, 204, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(188, 19, 254, 0.08), transparent 25%);
+            overflow-x: hidden;
+            cursor: none; 
+        }
+
+        h1, h2, h3, .logo-text { font-family: 'Orbitron', sans-serif; }
+        
+        /* Navbar */
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 20px 5%; position: fixed; width: 100%; top: 0; z-index: 1000; 
+            background: rgba(7, 9, 15, 0.7); 
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 255, 204, 0.2); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo { font-size: 30px; font-weight: 900; color: var(--text-bright); text-transform: uppercase; letter-spacing: 2px; cursor: pointer;}
+        .logo span { color: var(--primary-glow); text-shadow: 0 0 15px var(--primary-glow); }
+        
+        nav ul { display: flex; list-style: none; gap: 25px; flex-wrap: wrap; }
+        nav a { color: var(--text-bright); text-decoration: none; font-weight: 600; font-size: 16px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
+        nav a:hover { color: var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow); }
+        
+        /* Hero Section */
+        .hero { 
+            height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center; 
+            margin-top: 20px; position: relative; z-index: 10;
+        }
+        .hero h1 { font-size: 4.5rem; color: var(--text-bright); margin-bottom: 10px; letter-spacing: 3px; }
+        
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(180deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        .rainbow-text {
+            background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow), #ff007f, var(--primary-glow));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+            animation: rainbow 4s linear infinite, moveBg 5s ease infinite;
+            position: relative; display: inline-block;
+        }
+
+        @keyframes moveBg { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; color: #a1a1aa; }
+        
+        .contact-btns { display: flex; gap: 20px; }
+        .btn { 
+            padding: 12px 30px; font-size: 16px; font-weight: bold; 
+            border-radius: 8px; text-decoration: none; transition: 0.4s; 
+            border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;
+            position: relative; overflow: hidden;
+        }
+        .btn-discord { background: var(--discord); color: #fff; box-shadow: 0 0 15px rgba(88, 101, 242, 0.4); }
+        .btn-email { background: transparent; color: var(--text-bright); border: 2px solid #ea4335; box-shadow: 0 0 15px rgba(234, 67, 53, 0.2); }
+        .btn-email:hover { background: #ea4335; }
+        .btn:hover { transform: translateY(-5px); filter: brightness(1.2); }
+
+        /* Sections & Cards */
+        .section-box { padding: 90px 5%; border-bottom: 1px solid rgba(255,255,255,0.03); position: relative; z-index: 10;}
+        .section-title { text-align: center; font-size: 2.8rem; color: var(--text-bright); margin-bottom: 50px; text-transform: uppercase; letter-spacing: 2px; }
+        .section-title span { color: var(--primary-glow); animation: rainbow 5s linear infinite; }
+        
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 35px; perspective: 1000px; }
+        
+        .card { 
+            background: var(--card-bg); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 30px; 
+            transition: transform 0.1s ease, box-shadow 0.4s ease; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center; cursor: pointer; transform-style: preserve-3d;
+        }
+        .card:hover { border-color: var(--primary-glow); box-shadow: 0 15px 45px rgba(0, 255, 204, 0.2); z-index: 10; }
+        .card i { font-size: 45px; background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(0, 255, 204, 0.4)); transition: 0.4s; transform: translateZ(30px); }
+        .card:hover i { animation: rainbow 2s linear infinite; transform: translateZ(50px) scale(1.1); }
+        
+        .card-title { font-size: 1.6rem; color: #fff; margin-bottom: 12px; transform: translateZ(20px); }
+        .card-desc { font-size: 1.05rem; color: #8892b0; margin-bottom: 25px; line-height: 1.5; transform: translateZ(10px); }
+        
+        .btn-download { display: inline-block; background: transparent; color: var(--primary-glow); border: 2px solid var(--primary-glow); padding: 10px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; width: 100%; cursor: pointer; transform: translateZ(25px); }
+        .btn-download:hover { background: var(--primary-glow); color: #000; box-shadow: 0 0 20px var(--primary-glow); }
+        
+        .btn-software-page { display: inline-block; margin: 40px auto; background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow)); color: #fff; padding: 15px 45px; font-size: 20px; border-radius: 30px; text-decoration: none; font-weight: bold; box-shadow: 0 0 25px rgba(188, 19, 254, 0.4); transition: 0.4s; cursor: pointer; }
+        .btn-software-page:hover { transform: scale(1.05); filter: brightness(1.2); animation: rainbow 3s linear infinite;}
+        
+        footer { text-align: center; padding: 25px; background: #030407; border-top: 1px solid rgba(0,255,204,0.1); letter-spacing: 1px; position: relative; z-index: 10;}
+        footer span { color: var(--primary-glow); font-family: 'Orbitron', sans-serif; font-weight: bold; }
+
+        /* Scroll Reveal */
+        .reveal { opacity: 0; transform: translateY(60px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Cursor Follower */
+        .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--primary-glow); box-shadow: 0 0 10px var(--primary-glow); }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--secondary-glow); box-shadow: 0 0 15px rgba(188, 19, 254, 0.5); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+        body.hovering .cursor-outline { width: 60px; height: 60px; background-color: rgba(0, 255, 204, 0.1); border-color: var(--primary-glow); box-shadow: 0 0 20px var(--primary-glow); }
+
+        /* Particle Background Canvas */
+        #particle-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+
+        /* ========================================================= */
+        /*           ULTRA-PREMIUM LIVE CHAT & CALL WIDGET           */
+        /* ========================================================= */
+        .chat-toggle-btn {
+            position: fixed; bottom: 30px; right: 30px; z-index: 2000;
+            width: 65px; height: 65px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
+            border: none; color: #fff; font-size: 26px; cursor: pointer;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.6);
+            display: flex; justify-content: center; align-items: center;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .chat-toggle-btn:hover { transform: scale(1.1) rotate(10deg); }
+
+        .chat-widget {
+            position: fixed; bottom: 105px; right: 30px; z-index: 2000;
+            width: 380px; height: 580px; max-width: 90vw; max-height: 80vh;
+            background: rgba(10, 14, 23, 0.85); backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 204, 0.3); border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(188, 19, 254, 0.2);
+            display: flex; flex-direction: column; overflow: hidden;
+            opacity: 0; pointer-events: none; transform: translateY(30px) scale(0.9);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .chat-widget.active { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
+
+        /* Widget Header */
+        .chat-header {
+            padding: 15px 20px; background: rgba(15, 20, 32, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .user-info { display: flex; align-items: center; gap: 12px; }
+        .user-details h4 { color: #fff; font-size: 18px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;}
+        .user-status { font-size: 12px; color: var(--primary-glow); display: flex; align-items: center; gap: 5px; }
+        .status-dot { width: 8px; height: 8px; background: var(--primary-glow); border-radius: 50%; box-shadow: 0 0 8px var(--primary-glow); }
+
+        /* Navigation Tabs */
+        .chat-tabs { display: flex; background: rgba(5, 7, 12, 0.8); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .chat-tab-btn {
+            flex: 1; padding: 10px; background: transparent; border: none;
+            color: #8892b0; font-weight: bold; font-size: 14px; cursor: pointer;
+            transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .chat-tab-btn.active { color: var(--primary-glow); border-bottom: 2px solid var(--primary-glow); background: rgba(0, 255, 204, 0.05); }
+
+        /* Chat Body & Messages */
+        .chat-body-container { flex: 1; position: relative; overflow: hidden; }
+        .tab-content { position: absolute; top:0; left:0; width:100%; height:100%; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: 0.3s; }
+        .tab-content.active { opacity: 1; pointer-events: all; }
+
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .chat-messages::-webkit-scrollbar { width: 4px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: rgba(0,255,204,0.3); border-radius: 4px; }
+
+        .msg-bubble {
+            max-width: 80%; padding: 10px 14px; border-radius: 15px; font-size: 14px; line-height: 1.4;
+            animation: fadeIn 0.3s ease; position: relative; word-wrap: break-word;
+        }
+        .msg-sender-name { font-size: 11px; font-weight: bold; margin-bottom: 4px; opacity: 0.7; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .msg-incoming {
+            align-self: flex-start; background: rgba(30, 40, 60, 0.6); color: #fff;
+            border: 1px solid rgba(255,255,255,0.1); border-bottom-left-radius: 2px;
+        }
+        .msg-outgoing {
+            align-self: flex-end; background: linear-gradient(135deg, rgba(0,255,204,0.2), rgba(188,19,254,0.3));
+            color: #fff; border: 1px solid var(--primary-glow); border-bottom-right-radius: 2px;
+            box-shadow: 0 0 10px rgba(0,255,204,0.2);
+        }
+        .msg-img { max-width: 100%; border-radius: 10px; margin-top: 5px; border: 1px solid var(--primary-glow); }
+
+        /* Chat Name & Footer Inputs */
+        .chat-name-input {
+            padding: 8px 12px; background: rgba(10, 14, 23, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .name-input-field {
+            width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px; padding: 6px 10px; color: var(--primary-glow); font-weight: bold; font-size: 13px; outline: none;
+        }
+        .name-input-field:focus { border-color: var(--secondary-glow); }
+
+        .chat-footer {
+            padding: 10px 12px; background: rgba(15, 20, 32, 0.95);
+            display: flex; align-items: center; gap: 8px; position: relative;
+        }
+        .chat-input {
+            flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; padding: 8px 15px; color: #fff; font-size: 14px; outline: none; transition: 0.3s;
+        }
+        .chat-input:focus { border-color: var(--primary-glow); box-shadow: 0 0 10px rgba(0, 255, 204, 0.3); }
+
+        .chat-action-btn {
+            background: transparent; border: none; color: var(--primary-glow);
+            font-size: 18px; cursor: pointer; transition: 0.2s; padding: 4px;
+        }
+        .chat-action-btn:hover { transform: scale(1.2); color: #fff; }
+
+        /* Emoji Picker Overlay */
+        .emoji-picker {
+            position: absolute; bottom: 60px; left: 10px; background: rgba(15, 20, 32, 0.98);
+            border: 1px solid var(--primary-glow); border-radius: 12px; padding: 10px;
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; font-size: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8); opacity: 0; pointer-events: none; transition: 0.2s;
+        }
+        .emoji-picker.active { opacity: 1; pointer-events: all; }
+        .emoji-item { cursor: pointer; text-align: center; transition: 0.2s; }
+        .emoji-item:hover { transform: scale(1.3); }
+
+        /* Voice Call Screen Tab */
+        .call-tab-screen {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100%; text-align: center; padding: 20px; background: radial-gradient(circle, rgba(188, 19, 254, 0.15) 0%, transparent 70%);
+        }
+        .caller-avatar-wrap { position: relative; margin-bottom: 25px; }
+        .caller-avatar { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--primary-glow); }
+        .call-pulse {
+            position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border: 2px solid var(--secondary-glow); border-radius: 50%; animation: pulseRing 2s infinite;
+        }
+        @keyframes pulseRing { 0% { transform: scale(0.9); opacity: 1; } 100% { transform: scale(1.4); opacity: 0; } }
+
+        .call-actions { display: flex; gap: 20px; margin-top: 30px; }
+        .call-btn {
+            width: 50px; height: 50px; border-radius: 50%; border: none; color: #fff; font-size: 20px;
+            cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.3s;
+        }
+        .btn-call-start { background: #22c55e; box-shadow: 0 0 15px rgba(34, 197, 94, 0.5); }
+        .btn-call-end { background: #ef4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.5); }
+        .call-btn:hover { transform: scale(1.15); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header>
+        <div class="logo">AURA<span>.</span></div>
+        <nav>
+            <ul>
+                <li><a href="#freefire">Free Fire</a></li>
+                <li><a href="#emulators">Emulators</a></li>
+                <li><a href="#antimalware">Anti-Malware</a></li>
+                <li><a href="#fps-booster">FPS Booster</a></li>
+                <li><a href="#regedit">Regedit</a></li>
+                <li><a href="#video-editing">Video Editing</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero reveal">
+        <h1>WELCOME TO <span class="rainbow-text">AURA</span></h1>
+        <p>Premium Gaming Tweaks, FPS Boosters, Emulators & Creator Hub</p>
+        <div class="contact-btns">
+            <!-- UPDATED DISCORD LINK HERE -->
+            <a href="https://discord.gg/gMq9DPKF" target="_blank" class="btn btn-discord"><i class="fa-brands fa-discord"></i> Join Discord</a>
+            <a href="mailto:ttasin0077@gmail.com" class="btn btn-email"><i class="fa-solid fa-envelope"></i> Email Me</a>
+        </div>
+    </section>
+
+    <!-- FREE FIRE APK SECTION -->
+    <section id="freefire" class="section-box">
+        <h2 class="section-title reveal">Free Fire <span>APK Files</span></h2>
+        <div class="grid-container">
+            <div class="card reveal">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <h3 class="card-title">Free Fire Normal</h3>
+                <p class="card-desc">Latest version of Free Fire normal APK. Optimized for low-end devices.</p>
+                <a href="https://drive.google.com/file/d/1yreFcc9FSpF0zF-BGyNV0lZ9n_irQ5oF/view?usp=sharing" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-gamepad"></i>
+                <h3 class="card-title">Free Fire MAX</h3>
+                <p class="card-desc">Ultra graphics Free Fire Max APK for high-end gaming experience.</p>
+                <a href="https://drive.google.com/file/d/1WRb_nwHlNv1i2_vuHXwzzrYwUS5exKU7/view?usp=drive_link" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- EMULATOR SECTION -->
+    <section id="emulators" class="section-box" style="background: rgba(255,255,255,0.01);">
+        <h2 class="section-title reveal">Gaming <span>Emulators</span></h2>
+        <div class="grid-container">
+            <div class="card reveal">
+                <i class="fa-solid fa-desktop"></i>
+                <h3 class="card-title">Bluestacks 4 e4vx</h3>
+                <p class="card-desc">Best emulator setting for Free Fire headshots and no lag.</p>
+                <a href="https://drive.google.com/file/d/1OzOI_pEsERwF19vSQKm9gXq6W0i55hAo/view?usp=drive_link" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-laptop-code"></i>
+                <h3 class="card-title">MSI App Player</h3>
+                <p class="card-desc">Lightweight emulator based on BlueStacks for smooth FPS.</p>
+                <a href="https://drive.google.com/file/d/1BsdyOzsmn_0zHbv4WgsXaVSObRTp_ZgF/view?usp=drive_link" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-gears"></i>
+                <h3 class="card-title">BS Tweaker</h3>
+                <p class="card-desc">Advanced tweak tool for emulator root, resolution, and RAM management.</p>
+                <a href="https://drive.google.com/file/d/1Mi9PWpXz_uh5XQaX4pWMl_uwmzCaLkBc/view?usp=drive_link" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-gamepad"></i>
+                <h3 class="card-title">Rouk FF Emulator</h3>
+                <p class="card-desc">Official emulator used by Rouk FF for flawless gameplay.</p>
+                <a href="https://drive.google.com/file/d/1MHZdEKIAgjlOFzXvL7pb4LUOiH22AW2j/view?usp=sharing" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-bolt"></i>
+                <h3 class="card-title">The God Emulator</h3>
+                <p class="card-desc">Version 4.240.30.1002 used by legends like B2K, Ruok, White444, and BNL.</p>
+                <a href="https://drive.google.com/file/d/1kWL7znN-b5QL3QI2yr9xRmrMbNzOyZtH/view?usp=sharing" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ANTI-MALWARE SECTION -->
+    <section id="antimalware" class="section-box">
+        <h2 class="section-title reveal">Anti-Malware <span>Tools</span></h2>
+        <div class="grid-container">
+            <div class="card reveal">
+                <i class="fa-solid fa-shield-virus"></i>
+                <h3 class="card-title">HitmanPro x64</h3>
+                <p class="card-desc">Powerful malware, virus, and spyware remover for a fast and clean PC.</p>
+                <a href="https://drive.google.com/file/d/1b4H-WbA-ulDlk8WFBM_sYAbYgirSMbSv/view?usp=drive_link" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-broom"></i>
+                <h3 class="card-title">AdwCleaner</h3>
+                <p class="card-desc">Removes unwanted browser adware, pop-ups, and hidden background hijackers.</p>
+                <a href="https://drive.google.com/file/d/1pZTP2gzy1lPBr7WLmK-JReNa7Af71JdW/view?usp=drive_link" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-user-shield"></i>
+                <h3 class="card-title">Kaspersky KVRT</h3>
+                <p class="card-desc">Standalone virus removal tool to scan and easily sanitize infected systems.</p>
+                <a href="https://drive.google.com/file/d/160OBgp9nV6AN77eN9mITj8jXq64At2WI/view?usp=drive_link" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FPS BOOSTER SECTION -->
+    <section id="fps-booster" class="section-box" style="background: rgba(255,255,255,0.01);">
+        <h2 class="section-title reveal">FPS <span>Booster</span></h2>
+        <div class="grid-container">
+            <div class="card reveal">
+                <i class="fa-solid fa-rocket"></i>
+                <h3 class="card-title">AURA VIP Booster</h3>
+                <p class="card-desc">Max out your frames, lower latency, and get ultra-smooth gameplay instantly.</p>
+                <a href="https://drive.google.com/file/d/1ulVM2mgZviQ9SSdYnZdZe95IUmxXKIdn/view?usp=drive_link" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-microchip"></i>
+                <h3 class="card-title">RAM & Cache Cleaner</h3>
+                <p class="card-desc">Clear background apps and free up RAM to stop sudden game freezes.</p>
+                <a href="https://drive.google.com/file/d/1Kab-U-5HIyUmJNub3FSd5uOi9vfBTS0i/view?usp=drive_link" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- REGEDIT SECTION -->
+    <section id="regedit" class="section-box">
+        <h2 class="section-title reveal">AURA <span>Regedit</span></h2>
+        <div class="grid-container">
+            <div class="card reveal">
+                <i class="fa-solid fa-crosshairs"></i>
+                <h3 class="card-title">VIP Headshot Regedit</h3>
+                <p class="card-desc">Perfect sensitivity and aimlock settings. 100% safe for main ID.</p>
+                <a href="https://drive.google.com/file/d/1COXgtGMScAZH3DboKzsPQRvBkqNeD9h1/view?usp=drive_link" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-mouse-pointer"></i>
+                <h3 class="card-title">Mouse & Network</h3>
+                <p class="card-desc">Zero delay mouse movement and stable ping for competitive matches.</p>
+                <a href="YOUR_REGEDIT_MOUSE_LINK_HERE" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MERGED VIDEO EDITING SECTION -->
+    <section id="video-editing" class="section-box" style="background: rgba(255,255,255,0.01);">
+        <h2 class="section-title reveal">Video <span>Editing Assets</span></h2>
+        <div class="grid-container" style="display: flex; justify-content: center;">
+            <!-- Single combined card as requested -->
+            <div class="card reveal" style="max-width: 500px; width: 100%;">
+                <i class="fa-solid fa-film"></i>
+                <h3 class="card-title">Ultimate Editing Pack</h3>
+                <p class="card-desc">All-in-one pack containing Montage BGM, non-copyrighted music, and viral meme sound effects for YouTube videos.</p>
+                <!-- NEW GOOGLE DRIVE LINK -->
+                <a href="https://drive.google.com/file/d/1Q1lTfxAY9xJH-GCDnVipD4ONT0Fui5t9/view?usp=sharing" class="btn-download" target="_blank"><i class="fa-solid fa-download"></i> Download Pack</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Contact: ttasin0077@gmail.com | &copy; 2026 <span>AURA</span> - All Rights Reserved</p>
+    </footer>
+
+    <!-- ========================================================= -->
+    <!--          GLOBAL LIVE CHAT & CALL WIDGET UI                -->
+    <!-- ========================================================= -->
+    
+    <!-- Floating Toggle Button -->
+    <button class="chat-toggle-btn" id="chat-toggle-btn">
+        <i class="fa-solid fa-earth-americas"></i>
+    </button>
+
+    <!-- Glassmorphic Chat Widget Window -->
+    <div class="chat-widget" id="chat-widget">
+        <!-- Widget Header -->
+        <div class="chat-header">
+            <div class="user-info">
+                <i class="fa-solid fa-users-rays" style="font-size: 24px; color: var(--primary-glow); filter: drop-shadow(0 0 5px var(--primary-glow));"></i>
+                <div class="user-details">
+                    <h4>Global Live Chat</h4>
+                    <span class="user-status"><div class="status-dot"></div> Public Room (All Users)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="chat-tabs">
+            <button class="chat-tab-btn active" id="tab-btn-chat"><i class="fa-solid fa-comments"></i> Chat Room</button>
+            <button class="chat-tab-btn" id="tab-btn-call"><i class="fa-solid fa-headset"></i> Voice Chat</button>
+        </div>
+
+        <!-- Widget Body -->
+        <div class="chat-body-container">
+            
+            <!-- 1. CHAT TAB -->
+            <div class="tab-content active" id="tab-chat-content">
+                <div class="chat-messages" id="chat-messages-list">
+                    <div class="msg-bubble msg-incoming">
+                        <div class="msg-sender-name" style="color: var(--primary-glow);">AURA System</div>
+                        Welcome to AURA Global Chat! 🔥 Enter your name below and start chatting with everyone.
+                    </div>
+                </div>
+
+                <!-- Username Input (Replaces Login) -->
+                <div class="chat-name-input">
+                    <input type="text" id="chat-username" class="name-input-field" placeholder="Enter your display name..." value="Guest">
+                </div>
+
+                <!-- Emoji Picker -->
+                <div class="emoji-picker" id="emoji-picker">
+                    <span class="emoji-item">🔥</span><span class="emoji-item">😎</span>
+                    <span class="emoji-item">🎮</span><span class="emoji-item">🚀</span>
+                    <span class="emoji-item">❤️</span><span class="emoji-item">💯</span>
+                    <span class="emoji-item">🎧</span><span class="emoji-item">⚡</span>
+                    <span class="emoji-item">👍</span><span class="emoji-item">💀</span>
+                </div>
+
+                <!-- Chat Footer Input Bar -->
+                <div class="chat-footer">
+                    <input type="file" id="file-input" style="display: none;" accept="image/*, .pdf, .doc">
+                    
+                    <button class="chat-action-btn" id="btn-attach"><i class="fa-solid fa-paperclip"></i></button>
+                    <button class="chat-action-btn" id="btn-emoji"><i class="fa-solid fa-face-smile"></i></button>
+
+                    <input type="text" class="chat-input" id="chat-msg-input" placeholder="Type a message..." autocomplete="off">
+                    
+                    <button class="chat-action-btn" id="btn-send"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+
+            <!-- 2. VOICE CALL TAB -->
+            <div class="tab-content" id="tab-call-content">
+                <div class="call-tab-screen">
+                    <div class="caller-avatar-wrap">
+                        <div class="call-pulse"></div>
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=AuraAdmin" class="caller-avatar" alt="AURA Admin">
+                    </div>
+                    <h3 style="color:#fff; font-family:'Orbitron';">Global Voice Room</h3>
+                    <p style="color:var(--primary-glow); margin-top:5px;" id="call-status-text">Ready to join room...</p>
+                    
+                    <div class="call-actions">
+                        <button class="call-btn btn-call-start" id="btn-start-call"><i class="fa-solid fa-phone"></i></button>
+                        <button class="call-btn btn-call-end" id="btn-end-call" style="display:none;"><i class="fa-solid fa-phone-slash"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // 1. SMART SCROLL REVEAL
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 80) reveals[i].classList.add("active");
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+
+        // 2. MOUSE CURSOR FOLLOWER
+        const cursorDot = document.querySelector(".cursor-dot");
+        const cursorOutline = document.querySelector(".cursor-outline");
+        let mouseX = 0, mouseY = 0, outlineX = 0, outlineY = 0;
+
+        window.addEventListener("mousemove", (e) => {
+            mouseX = e.clientX; mouseY = e.clientY;
+            cursorDot.style.left = `${mouseX}px`; cursorDot.style.top = `${mouseY}px`;
+        });
+
+        function animateCursor() {
+            outlineX += (mouseX - outlineX) * 0.15;
+            outlineY += (mouseY - outlineY) * 0.15;
+            cursorOutline.style.left = `${outlineX}px`; cursorOutline.style.top = `${outlineY}px`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll("a, .btn, .card, i, button, input").forEach(el => {
+            el.addEventListener("mouseenter", () => document.body.classList.add("hovering"));
+            el.addEventListener("mouseleave", () => document.body.classList.remove("hovering"));
+        });
+
+        // 3. 3D CARD TILT EFFECT
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                card.style.transform = `perspective(1000px) rotateX(${(-y / 15).toFixed(2)}deg) rotateY(${(x / 15).toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            });
+        });
+
+        // 4. BACKGROUND PARTICLE SYSTEM
+        const canvas = document.getElementById("particle-canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let particlesArray = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() * 1) - 0.5; this.speedY = (Math.random() * 1) - 0.5;
+                this.color = Math.random() > 0.5 ? '#00ffcc' : '#bc13fe';
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0; else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0; else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = this.color; ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.globalAlpha = 0.5; ctx.fill();
+            }
+        }
+        function initParticles() {
+            particlesArray = [];
+            for (let i = 0; i < 70; i++) particlesArray.push(new Particle());
+        }
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update(); particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles(); animateParticles();
+
+        /* ========================================================= */
+        /*              GLOBAL CHAT LOGIC (UI DEMO)                  */
+        /* ========================================================= */
+
+        const chatToggleBtn = document.getElementById('chat-toggle-btn');
+        const chatWidget = document.getElementById('chat-widget');
+        const tabBtnChat = document.getElementById('tab-btn-chat');
+        const tabBtnCall = document.getElementById('tab-btn-call');
+        const tabChatContent = document.getElementById('tab-chat-content');
+        const tabCallContent = document.getElementById('tab-call-content');
+        
+        const chatMsgInput = document.getElementById('chat-msg-input');
+        const usernameInput = document.getElementById('chat-username');
+        const btnSend = document.getElementById('btn-send');
+        const chatMessagesList = document.getElementById('chat-messages-list');
+        const emojiPicker = document.getElementById('emoji-picker');
+        const btnEmoji = document.getElementById('btn-emoji');
+
+        // Toggle Widget
+        chatToggleBtn.addEventListener('click', () => {
+            chatWidget.classList.toggle('active');
+        });
+
+        // Tab Switching
+        tabBtnChat.addEventListener('click', () => {
+            tabBtnChat.classList.add('active'); tabBtnCall.classList.remove('active');
+            tabChatContent.classList.add('active'); tabCallContent.classList.remove('active');
+        });
+        tabBtnCall.addEventListener('click', () => {
+            tabBtnCall.classList.add('active'); tabBtnChat.classList.remove('active');
+            tabCallContent.classList.add('active'); tabChatContent.classList.remove('active');
+        });
+
+        // Send Text Message Function
+        function sendMessage() {
+            const text = chatMsgInput.value.trim();
+            let senderName = usernameInput.value.trim();
+            
+            if (text === "") return;
+            if (senderName === "") senderName = "Guest";
+
+            // Outgoing Message Builder
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'msg-bubble msg-outgoing';
+            msgDiv.innerHTML = `<div class="msg-sender-name">You (${senderName})</div>${text}`;
+            chatMessagesList.appendChild(msgDiv);
+
+            chatMsgInput.value = "";
+            chatMessagesList.scrollTop = chatMessagesList.scrollHeight;
+
+            // Auto-reply to simulate "other people chatting"
+            setTimeout(() => {
+                const randomNames = ["Alex", "ProGamer99", "AURA_Fan", "John_Doe"];
+                const randomName = randomNames[Math.floor(Math.random() * randomNames.length)];
+                
+                const replyDiv = document.createElement('div');
+                replyDiv.className = 'msg-bubble msg-incoming';
+                replyDiv.innerHTML = `<div class="msg-sender-name" style="color: var(--secondary-glow);">${randomName}</div>Wow, ${senderName}! Nice to see you here. 🚀`;
+                chatMessagesList.appendChild(replyDiv);
+                chatMessagesList.scrollTop = chatMessagesList.scrollHeight;
+            }, 2500);
+        }
+
+        btnSend.addEventListener('click', sendMessage);
+        chatMsgInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Emoji Picker Toggle & Select
+        btnEmoji.addEventListener('click', () => emojiPicker.classList.toggle('active'));
+        document.querySelectorAll('.emoji-item').forEach(emoji => {
+            emoji.addEventListener('click', () => {
+                chatMsgInput.value += emoji.innerText;
+                emojiPicker.classList.remove('active');
+                chatMsgInput.focus();
+            });
+        });
+
+        // File Sharing Attachment
+        const btnAttach = document.getElementById('btn-attach');
+        const fileInput = document.getElementById('file-input');
+        btnAttach.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                const senderName = usernameInput.value.trim() || "Guest";
+                
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'msg-bubble msg-outgoing';
+                msgDiv.innerHTML = `<div class="msg-sender-name">You (${senderName})</div><i class="fa-solid fa-file"></i> Shared file: <b>${fileName}</b>`;
+                chatMessagesList.appendChild(msgDiv);
+                chatMessagesList.scrollTop = chatMessagesList.scrollHeight;
+            }
+        });
+
+        // Voice Call Controls Simulation
+        const btnStartCall = document.getElementById('btn-start-call');
+        const btnEndCall = document.getElementById('btn-end-call');
+        const callStatusText = document.getElementById('call-status-text');
+
+        btnStartCall.addEventListener('click', () => {
+            callStatusText.innerText = "Connecting to Voice Room...";
+            callStatusText.style.color = "#22c55e";
+            btnStartCall.style.display = "none";
+            btnEndCall.style.display = "flex";
+
+            setTimeout(() => {
+                callStatusText.innerText = "Connected! You are live. (00:12)";
+            }, 2000);
+        });
+
+        btnEndCall.addEventListener('click', () => {
+            callStatusText.innerText = "Disconnected";
+            callStatusText.style.color = "#ef4444";
+            setTimeout(() => {
+                callStatusText.innerText = "Ready to join room...";
+                callStatusText.style.color = "var(--primary-glow)";
+                btnStartCall.style.display = "flex";
+                btnEndCall.style.display = "none";
+            }, 1000);
+        });
+
+    </script>
+</body>
+</html>
